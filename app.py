@@ -1,7 +1,6 @@
 import streamlit as st
 st.set_page_config(
     page_title="🛡️ Advanced Security System - Combined AI",
-    page_icon="🛡️",
     layout="wide"
 )
 
@@ -346,4 +345,5 @@ if uploaded_file is not None:
 else:
 
     st.info("👆 Upload a video file to start security monitoring")
+
 
