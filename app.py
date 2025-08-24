@@ -38,7 +38,7 @@ except ImportError:
 
 @st.cache_resource
 def load_action_model():
-    """Load TensorFlow crime detection model (from code 2)"""
+    tf.compat.v1.disable_eager_execution()
     try:
         model = tf.keras.models.load_model("model.h5")
         st.success("✅ Crime detection model loaded")
@@ -46,10 +46,11 @@ def load_action_model():
     except Exception as e:
         st.warning(f"Crime model not found: {e}")
         return None
+    finally:
+        tf.compat.v1.enable_eager_execution()
 
 @st.cache_resource
 def load_face_model():
-    """Load YOLOv8 face detection model (from code 1)"""
     try:
         model = YOLO("yolov8m.pt")  
         st.success("✅ YOLOv8 face detection model loaded")
@@ -64,7 +65,6 @@ crime_classes = ["Burglary", "Fighting", "Normal_Videos_for_Event_Recognition", 
 unique_faces = []  
 
 def is_new_face(face_crop, threshold=0.8):
-    """Check if face is new using simple similarity"""
     if len(unique_faces) == 0:
         return True
     face_resized = cv2.resize(face_crop, (64,64)).flatten().astype(np.float32)
@@ -76,13 +76,11 @@ def is_new_face(face_crop, threshold=0.8):
     return True
 
 def register_face(face_crop):
-    """Register new face"""
     face_resized = cv2.resize(face_crop, (64,64)).flatten().astype(np.float32)
     face_resized /= np.linalg.norm(face_resized) + 1e-6
     unique_faces.append(face_resized)
 
 def play_alarm_sound(alarm_type="crime"):
-    """Play alarm sound"""
     if not hasattr(st.session_state, 'alarm_enabled') or not st.session_state.alarm_enabled:
         return
     
@@ -101,7 +99,6 @@ def play_alarm_sound(alarm_type="crime"):
         pass
 
 def speak_alert(message):
-    """Text-to-speech alert"""
     if not hasattr(st.session_state, 'voice_alerts') or not st.session_state.voice_alerts:
         return
     
@@ -347,4 +344,5 @@ if uploaded_file is not None:
         pass
 
 else:
+
     st.info("👆 Upload a video file to start security monitoring")
