@@ -40,7 +40,7 @@ except ImportError:
 def load_action_model():
     tf.compat.v1.disable_eager_execution()
     try:
-        model = tf.keras.models.load_model("model.h5")
+        model = tf.keras.models.load_model("model.h5", compile=False)
         st.success("✅ Crime detection model loaded")
         return model
     except Exception as e:
@@ -346,3 +346,4 @@ if uploaded_file is not None:
 else:
 
     st.info("👆 Upload a video file to start security monitoring")
+
