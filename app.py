@@ -62,7 +62,7 @@ def load_action_model():
     except:
         try:
             model = create_model_architecture()
-            model.load_weights('crime_model.h5')
+            model.load_weights('model.h5')
             return model
         except Exception as e:
             st.error(f"Model loading failed: {e}")
@@ -370,6 +370,7 @@ if uploaded_file is not None:
 else:
 
     st.info("👆 Upload a video file to start security monitoring")
+
 
 
 
