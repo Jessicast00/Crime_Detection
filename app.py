@@ -34,44 +34,19 @@ try:
     WINSOUND_AVAILABLE = True
 except ImportError:
     pass
-
-def create_model_architecture():
-    model = tf.keras.Sequential([
-        tf.keras.layers.TimeDistributed(
-            tf.keras.layers.Conv2D(32, (3, 3), activation='relu'),
-            input_shape=(16, 224, 224, 3)  # Make sure it's integer
-        ),
-        tf.keras.layers.TimeDistributed(
-            tf.keras.layers.MaxPooling2D((2, 2))
-        ),
-        tf.keras.layers.TimeDistributed(
-            tf.keras.layers.Flatten()
-        ),
-        tf.keras.layers.LSTM(50),
-        tf.keras.layers.Dense(10, activation='softmax')  # Adjust output classes
-    ])
-    return model
     
 @st.cache_resource
 def load_action_model():
-    # tf.compat.v1.disable_eager_execution()
+    tf.compat.v1.disable_eager_execution()
     try:
         model = tf.keras.models.load_model("model.h5", compile=False)
         st.success("✅ Crime detection model loaded")
         return model
-    except:
-        try:
-            model = create_model_architecture()
-            model.load_weights('model.h5')
-            return model
-        except Exception as e:
-            st.error(f"Model loading failed: {e}")
-            return None
-    # except Exception as e:
-    #     st.warning(f"Crime model not found: {e}")
-    #     return None
-    # finally:
-    #     tf.compat.v1.enable_eager_execution()
+    except Exception as e:
+        st.warning(f"Crime model not found: {e}")
+        return None
+    finally:
+        tf.compat.v1.enable_eager_execution()
 
 @st.cache_resource
 def load_face_model():
@@ -370,6 +345,7 @@ if uploaded_file is not None:
 else:
 
     st.info("👆 Upload a video file to start security monitoring")
+
 
 
 
