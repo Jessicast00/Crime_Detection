@@ -1,6 +1,6 @@
 import streamlit as st
 st.set_page_config(
-    page_title="🛡️ Advanced Security System - Combined AI",
+    page_title="🛡️ SIGAP - Smart Identification and Guarding Alert Platform",
     layout="wide"
 )
 
@@ -118,7 +118,7 @@ if 'alarm_enabled' not in st.session_state:
 if 'voice_alerts' not in st.session_state:
     st.session_state.voice_alerts = True
 
-st.title("🛡️ Advanced Security System - Combined AI")
+st.title("🛡️ SIGAP - Smart Identification and Guarding Alert Platform")
 st.markdown("### 🎯 Real-time Crime Detection + Face Recognition")
 
 crime_threshold = 0.7
@@ -345,5 +345,6 @@ if uploaded_file is not None:
 else:
 
     st.info("👆 Upload a video file to start security monitoring")
+
 
 
